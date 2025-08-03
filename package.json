@@ -40,8 +40,13 @@
       "artifactName": "${productName}-${version}-${arch}.${ext}",
       "target": {
         "target": "default",
-        "arch": ["universal"]
+        "arch": [
+          "universal"
+        ]
       }
     }
+  },
+  "dependencies": {
+    "electron-serve": "^2.1.1"
   }
 }

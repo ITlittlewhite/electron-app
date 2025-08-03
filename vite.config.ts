@@ -3,6 +3,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import electron from 'vite-plugin-electron/simple'
 import pkg from './package.json'
+import path from 'node:path'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
@@ -62,6 +63,15 @@ export default defineConfig(({ command }) => {
         renderer: {},
       }),
     ],
+    build: {
+      // 前端构建输出目录
+      outDir: 'dist-electron/renderer',
+      emptyOutDir: true,
+      input: {
+        // 确保路径指向你的实际入口文件
+        main: path.resolve(__dirname, 'src/main.ts')
+      }
+    },
     server: process.env.VSCODE_DEBUG && (() => {
       const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
       return {
