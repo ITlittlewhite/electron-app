@@ -17,7 +17,6 @@
       "./node_modules/@types",
       "./src/types"
     ],
-    "esModuleInterop": true  // 必须开启
   },
   "include": ["src"],
   "references": [

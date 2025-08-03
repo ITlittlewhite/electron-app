@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain, protocol } from 'electron'
+import { app, BrowserWindow, shell, ipcMain } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -21,7 +21,6 @@ process.env.APP_ROOT = path.join(__dirname, '../..')
 
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron')
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist')
-
 export const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL
 
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
@@ -40,9 +39,8 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 let win: BrowserWindow | null = null
-const preload = path.join(__dirname, '../preload/main.js')
-const indexHtml = path.join(__dirname, 'index.html')
-console.log('preload main.js =', preload);
+const preload = path.join(__dirname, '../preload/index.js')
+const indexHtml = path.join(RENDERER_DIST, 'index.html')
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -78,12 +76,6 @@ async function createWindow() {
     return { action: 'deny' }
   })
   // win.webContents.on('will-navigate', (event, url) => { }) #344
-
-  // 注册自定义协议
-  protocol.registerFileProtocol('app', (request, callback) => {
-    const url = request.url.substr(7) // 去掉 "app://"
-    callback({ path: path.join(__dirname, '../dist', url) })
-  })
 }
 
 app.whenReady().then(createWindow)

@@ -52,16 +52,6 @@ export default defineConfig(({ command }) => {
               outDir: 'dist-electron/preload',
               rollupOptions: {
                 external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
-                // 主进程配置
-                input: {
-                  main: 'electron/main/index.ts' // 改为您的主进程入口文件
-                },
-                output: {
-                  // 确保输出使用 .js 扩展名
-                  entryFileNames: '[name].js',
-                  chunkFileNames: '[name].js',
-                  assetFileNames: '[name].[ext]'
-                }
               },
             },
           },
